@@ -4,7 +4,7 @@
 - [1. Misunderstanding of language-specific behavior](#1-misunderstanding-of-language-specific-behavior)
 - [2. Off-by-one errors](#2-off-by-one-errors)
 - [3. Mutability misconceptions](#3-mutability-misconceptions)
-- [4. Ignoring error return values](#4-ignoring-error-return-values)
+- [4. Ignoring error return values](#4-ignoring-error'-return-values)
 - [5. Memory management mistakes](#5-memory-management-mistakes)
 - [6. Concurrency issues](#6-concurrency-issues)
 - [7. SQL Injection](#7-sql-injection)
@@ -121,3 +121,38 @@ def test_addition():
         assert 1 - 1 == 1  # This test should fail
 ```
 ---
+
+### AI Prompt
+
+```javascript
+for each function ,check the provided code for:
+
+Misunderstanding of language-specific behavior
+Off-by-one errors
+Mutability misconceptions
+Ignoring error return values
+Memory management mistakes
+Concurrency issues
+SQL Injection
+Hardcoding values
+Not understanding the difference between deep and shallow copying
+Not writing tests or ignoring failing tests
+and then respond as a table with function,issue,pass/fail, Comments ,code snippet,
+
+```
+
+### Example AI Response
+
+
+| Function Name | Issue | Pass/Fail | Comments | Code Snippet |
+| --- | --- | --- | --- | --- |
+| `language_specific_behavior_mistake` | Misunderstanding of language-specific behavior | Fail | Attempting to concatenate a string and an integer | `"5" + 5` |
+| `off_by_one_error` | Off-by-one errors | Fail | Index out of range error due to loop range exceeding list length | `for i in range(6): print(my_list[i])` |
+| `mutability_mistake` | Mutability misconceptions | Fail | Attempting to modify an immutable tuple | `my_tuple[0] = 0` |
+| `ignoring_error_return_values` | Ignoring error return values | Fail | ValueError is ignored when trying to convert a non-numeric string to an integer | `try: result = int("abc") except ValueError: pass` |
+| `memory_management_mistake` | Memory management mistakes | Fail | Allocating a large amount of memory in an infinite loop | `while True: data = " " * (1024 ** 2)` |
+| `concurrency_issue` | Concurrency issues | Fail | Race condition due to lack of synchronization when incrementing a shared counter | `for _ in range(1000000): counter += 1` |
+| `sql_injection` | SQL Injection | Fail | User input is directly used in SQL query, leading to SQL injection vulnerability | `query = f"SELECT * FROM users WHERE username='{user_input}'"` |
+| `hardcoding_values` | Hardcoding values | Fail | The value of pi is hardcoded | `pi = 3.14` |
+| `not_understanding_copy` | Not understanding the difference between deep and shallow copying | Fail | Changes to the original list affect the shallow copy but not the deep copy | `original_list[0][0] = 0` |
+| `not_writing_tests` | Not writing tests or ignoring failing tests | Fail | Division by zero error is not handled or tested | `result = divide(5, 0)` |

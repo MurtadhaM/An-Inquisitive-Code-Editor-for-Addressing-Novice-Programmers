@@ -1,111 +1,91 @@
-# Common Misconceptions & Mistakes in Python
-# ==========================================
-1. **Misunderstanding of language-specific behavior**: In Python, the `is` operator checks for identity, not equality. This can lead to unexpected results:
+"""
+This script is used to simulate a task for the purpose of testing the
+"""import os
+import time
+import random
+import argparse
+import multiprocessing as mp
+from datetime import datetime
+
+
+def simulate_task(task_id, task_duration, task_output_dir):
+    """
+    Simulate a task by sleeping for a random amount of time between 0 and
+    task_duration seconds. Then write the task_id, start time, and end time
+    to a file in the task_output_dir.
+
+    Parameters
+    ----------
+    task_id : int
+        The id of the task to be simulated.
+    task_duration : int
+        The maximum amount of time to sleep for.
+    task_output_dir : str
+        The directory to write the task output to.
+    """
+    # Sleep for a random amount of time between 0 and task_duration seconds
+    sleep_time = random.randint(0, task_duration)
+    time.sleep(sleep_time)
+
+    # Get the current time
+    start_time = datetime.now().strftime("%H:%M:%S")
+
+    # Write the task_id, start time, and end time to a file in the task_output_dir
+    with open(os.path.join(task_output_dir, f"task_{task_id}.txt"), "w") as f:
+        f.write(f"Task ID: {task_id}\n")
+        f.write(f"Start time: {start_time}\n")
+        """
+        Code to simulate the task goes here
+        """
+        
+        f.write(f"End time: {datetime.now().strftime('%H:%M:%S')}\n")
+
+def simulate_tasks(task_ids, task_duration, task_output_dir, num_processes):
+    """
+    Simulate a list of tasks by calling simulate_task in parallel.
+
+    Parameters
+    ----------
+    task_ids : list
+        A list of task ids to simulate.
+    task_duration : int
+        The maximum amount of time to sleep for.
+    task_output_dir : str
+        The directory to write the task output to.
+    num_processes : int
+        The number of processes to use for parallelization.
+    """
+    # Create the task_output_dir if it doesn't exist
+    if not os.path.exists(task_output_dir):
+        os.makedirs(task_output_dir)
+
+    # Create a pool of processes
+    pool = mp.Pool(num_processes)
+
+    # Simulate each task in parallel
+    for task_id in task_ids:
+        pool.apply_async(simulate_task, args=(task_id, task_duration, task_output_dir))
+
+    # Close the pool and wait for the tasks to finish
+    pool.close()
+    pool.join()
     
-```python
+def main():
+    # Parse command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--task_ids", type=int, nargs="+", required=True,
+                        help="A list of task ids to simulate.")
+    parser.add_argument("--task_duration", type=int, required=True,
+                        help="The maximum amount of time to sleep for.")
+    parser.add_argument("--task_output_dir", type=str, required=True,
+                        help="The directory to write the task output to.")
+    parser.add_argument("--num_processes", type=int, required=True,
+                        help="The number of processes to use for parallelization.")
+    args = parser.parse_args()
 
-a = [1, 2, 3]
-    b = [1, 2, 3]
-    print(a == b)  # True
-    print(a is b)  # False
-```
+    # Simulate the tasks
+    simulate_tasks(args.task_ids, args.task_duration, args.task_output_dir, args.num_processes)
 
-2. **Off-by-one errors**: These often occur in loops or when working with ranges:
-
-```python
-for i in range(10):  # This loop runs 10 times, not 9
-        print(i)
-```
-
-3. **Mutability misconceptions**: Lists are mutable, while tuples are not:
-
-```python
-a = [1, 2, 3]
-    a[0] = 10  # This is fine
-
-    b = (1, 2, 3)
-    b[0] = 10  # This raises a TypeError
-```
-
-4. **Ignoring error return values**: Python functions often raise exceptions instead of returning error values, but these should not be ignored:
-
-```python
-try:
-    x = int("not a number")  # Raises ValueError
-except ValueError:
-    pass  # Ignoring the error can lead to problems later
-```
-
-5. **Memory management mistakes**: Python handles memory management automatically, but holding onto large amounts of data can still cause problems:
-```python
-a = [0] * 10**8  # This list takes up a lot of memory
-```
-
-6. **Concurrency issues**: Python's Global Interpreter Lock (GIL) prevents true parallelism in threads, but race conditions can still occur:
-
-```python
-import threading
-
-    counter = 0
-
-    def increment_counter():
-    global counter
-        for _ in range(1000000):
-        counter += 1  # This is not thread-safe
-
-    t1 = threading.Thread(target=increment_counter)
-    t2 = threading.Thread(target=increment_counter)
-
-    t1.start()
-    t2.start()
-
-    t1.join()
-    t2.join()
-
-    print(counter)  # Likely not 2000000
-```
-
-7. **SQL Injection**: Always use parameterized queries or prepared statements to prevent SQL injection:
-
-```python
-import sqlite3
-
-    # NEVER do this
-    user_id = "1; DROP TABLE users;"
-    cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
-
-    # Instead, do this
-    user_id = 1
-    cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
-```
-
-8. **Hardcoding values**: Avoid hardcoding values that might change:
-
-```python
-tax_rate = 0.2  # Instead, consider loading this from a config file or environment variable
-```
-
-9. **Not understanding the difference between deep and shallow copying**: Shallow copies share references with the original object, while deep copies do not:
-
-```python
-import copy
-
-    a = [[1, 2, 3], [4, 5, 6]]
-    b = copy.copy(a)  # Shallow copy
-    c = copy.deepcopy(a)  # Deep copy
-
-    a[0][0] = 10
-
-    print(b)  # [[10, 2, 3], [4, 5, 6]]
-    print(c)  # [[1, 2, 3], [4, 5, 6]]
-```
-
-10. **Not writing tests or ignoring failing tests**: Always write tests for your code and pay attention when they fail:
-
-```python
-def test_addition():
-    assert 1 + 1 == 2  # This test should pass
-
-    def test_subtraction():
-    assert 1 - 1 == 1  # This test should fail
-```
+if __name__ == "__main__":
+    main()
+    

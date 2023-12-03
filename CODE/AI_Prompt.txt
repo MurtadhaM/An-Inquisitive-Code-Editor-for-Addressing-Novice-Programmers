@@ -1,0 +1,21 @@
+### AI Prompt:
+
+check the following code for:
+Misunderstanding of language-specific behavior
+Off-by-one errors
+Mutability misconceptions
+Ignoring error return values
+Memory management mistakes
+Concurrency issues
+SQL Injection
+Hardcoding values
+Not understanding the difference between deep and shallow copying
+Not writing tests or ignoring failing tests
+write the response in plaintext as follows:
+
+1. "function name" did/did not pass
+
+CODE:
+"
+
+"
