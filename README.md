@@ -7,6 +7,9 @@
 ---
 ### Goals ![](https://img.shields.io/badge/Paper-Goals-red)
 
+
+<img src="https://austinhenley.com/blog/images/inquisitiveflowchart.png"/>
+
 ---
 - **Identifying Misconceptions:**
   - Uses existing bug databases and code smell detectors.
@@ -61,7 +64,9 @@
 ---
 
 ### Citation ![](https://img.shields.io/badge/Paper-Citation-orange)
+https://austinhenley.com/blog/inquisitivecodeeditor.html
 
+https://www.youtube.com/watch?v=q3fp9ZbLJsA
 
 ```latex
 @INPROCEEDINGS{9402182,
