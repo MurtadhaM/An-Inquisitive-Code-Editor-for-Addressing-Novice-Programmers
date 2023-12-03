@@ -7,7 +7,12 @@
 ---
 ### Goals ![](https://img.shields.io/badge/Paper-Goals-red)
 
+#### Common Misconceptions & Mistakes in Python
+---
+<a href="Common.md"><img src="https://img.shields.io/badge/Python-Common%20Misconceptions%20%26%20Mistakes-blue"/></a>
 
+---
+1
 <img src="https://austinhenley.com/blog/images/inquisitiveflowchart.png"/>
 
 ---
